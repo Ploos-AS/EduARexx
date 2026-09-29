@@ -21,9 +21,12 @@ class Tests(unittest.TestCase):
         try:
             self.assertIn("Test -> mål",text); self.assertIn('"ARexx" - fint...',text)
         finally:td.cleanup()
-    def test_literal_at_is_escaped(self):
-        td,out,text=self.make("# Test\n\nemail@example.invalid\n")
-        try:self.assertIn("email@@example.invalid",text)
+    def test_literal_at_and_backslash_are_escaped(self):
+        td,out,text=self.make("# Test\n\nemail@example.invalid and C:\\Tools\n")
+        try:
+            self.assertIn("email\\@example.invalid",text)
+            self.assertIn("C:\\\\Tools",text)
+            self.assertNotIn("email@@example.invalid",text)
         finally:td.cleanup()
     def test_bad_link(self):
         with tempfile.TemporaryDirectory() as td:
