@@ -6,7 +6,7 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]; LINK=re.compile(r"\[([^\]]+)\]\(([^)]+)\)"); INLINE=re.compile(r"`([^`]+)`")
 TRANS=str.maketrans({"–":"-","—":"-","…":"...","“":'"',"”":'"',"‘":"'","’":"'","→":"->","←":"<-","•":"*"})
 def node_id(p): return "N_"+re.sub(r"[^A-Za-z0-9_]","_",p.parent.name)
-def escape(s): return s.replace("@","@@")
+def escape(s): return s.replace("\\","\\\\").replace("@","\\@")
 def amiga_text(s):
  s=s.translate(TRANS)
  try:s.encode("iso-8859-1");return s
@@ -32,7 +32,8 @@ def build(source,version="0.1.0",build_date=None):
  for nid,title,_ in nodes:out.append('@{"'+amiga_text(title).replace('"',"'")+'" link '+nid+'}')
  out+=["@endnode",""]
  for i,(nid,title,body) in enumerate(nodes):
-  st=amiga_text(title).replace('"',"'");out+=['@node '+nid+' "'+st+'"',inline(title),"-"*min(max(len(st),3),70),""];code=False
+  st=amiga_text(title).replace('"',"'");out+=['@node '+nid+' "'+st+'"',inline(title),"-"*min(max(len(st),3),70),""]
+  code=False
   for line in body:
    if line.startswith("```"):code=not code;continue
    out.append(("  "+escape(amiga_text(line)) if line else "") if code else convert(line))
