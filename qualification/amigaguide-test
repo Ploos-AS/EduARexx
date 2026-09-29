@@ -1,0 +1,19 @@
+; EduARexx native AmigaGuide qualification hook
+; This is deliberately conservative: it verifies that the native viewer can
+; be invoked on the generated document. Interactive navigation remains a
+; manual/runtime evidence step until GUI automation is available.
+
+Echo "EDUAREXX_QUALIFICATION_START"
+If EXISTS "SYS:Utilities/AmigaGuide"
+  SYS:Utilities/AmigaGuide "TEST:EduARexx.guide"
+Else
+  Echo "EDUAREXX_AMIGAGUIDE_OPEN=BLOCKED"
+  Echo "EDUAREXX_QUALIFICATION_END"
+  EndCLI
+EndIf
+Echo "EDUAREXX_AMIGAGUIDE_OPEN=PASS"
+Echo "EDUAREXX_MAIN_NODE=BLOCKED"
+Echo "EDUAREXX_NAVIGATION=BLOCKED"
+Echo "EDUAREXX_NORWEGIAN_TEXT=BLOCKED"
+Echo "EDUAREXX_CODE_BLOCKS=BLOCKED"
+Echo "EDUAREXX_QUALIFICATION_END"
