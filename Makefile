@@ -11,3 +11,8 @@ validate-amigaguide: amigaguide
 
 test:
 	$(PYTHON) -m unittest discover -s tests
+
+.PHONY: amiga-runtime-payload
+
+amiga-runtime-payload: validate-amigaguide
+	$(PYTHON) tools/package_amiga_runtime.py
