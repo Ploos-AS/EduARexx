@@ -22,6 +22,12 @@ jobs:
           python-version: "3.x"
       - run: make test
       - run: make validate-amigaguide VERSION="$GUIDE_VERSION"
+      - name: Prepare amiga-runtime qualification payload
+        run: make amiga-runtime-payload VERSION="$GUIDE_VERSION"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: EduARexx-amiga-runtime-payload-${{ env.GUIDE_VERSION }}
+          path: build/amiga-runtime-payload/
       - name: Stage versioned artifact
         run: cp build/EduARexx.guide "build/EduARexx-${GUIDE_VERSION}.guide"
       - uses: actions/upload-artifact@v4
