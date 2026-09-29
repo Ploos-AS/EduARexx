@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "artifact": "build/EduARexx.guide",
+  "platform": "amiga-m68k",
+  "application": "AmigaGuide",
+  "status": "NOT_RUN",
+  "profiles": [
+    {
+      "id": "a500plus-os2",
+      "cpu": "m68000",
+      "os_family": "AmigaOS 2.x",
+      "required": true
+    },
+    {
+      "id": "a1200-os3",
+      "cpu": "m68020",
+      "os_family": "AmigaOS 3.x",
+      "required": true
+    }
+  ],
+  "emulators": ["FS-UAE", "Amiberry", "FellowNG"],
+  "checks": [
+    "artifact_opens",
+    "main_node_visible",
+    "chapter_links_work",
+    "prev_next_work",
+    "norwegian_text_readable",
+    "code_blocks_readable",
+    "no_requester_or_parse_error"
+  ],
+  "notes": "No runtime PASS may be recorded without execution on m68k AmigaOS."
+}
