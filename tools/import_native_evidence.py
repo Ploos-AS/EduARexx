@@ -8,13 +8,12 @@ def main():
  rr=json.loads(a.runtime_result.read_text());v=json.loads(a.verification.read_text());m=json.loads(a.metadata.read_text())
  actual=sha256(a.guide);expected=m.get("sha256")
  if not expected or expected!=actual:raise SystemExit("artifact identity mismatch: payload metadata does not match guide")
- evidence_hash=rr.get("artifact_sha256") or v.get("artifact_sha256")
- if evidence_hash is not None and evidence_hash!=actual:raise SystemExit("artifact identity mismatch: runtime evidence belongs to another guide")
+ runtime_hash=rr.get("artifact_sha256"); verification_hash=v.get("artifact_sha256")\n if not runtime_hash or not verification_hash:raise SystemExit("native evidence is not artifact-bound")\n if runtime_hash!=actual or verification_hash!=actual:raise SystemExit("artifact identity mismatch: runtime evidence belongs to another guide")
  if rr.get("schema")!="amiga-runtime-result-v1":raise SystemExit("unsupported runtime result schema")
  if rr.get("runtime")!="amigaos":raise SystemExit("native qualification must use AmigaOS")
  if rr.get("status") not in ("PASS","FAIL") or v.get("status") not in ("PASS","FAIL"):raise SystemExit("invalid evidence status")
  status="PASS" if rr["status"]=="PASS" and v["status"]=="PASS" else "FAIL"
- out={"schema":1,"artifact_sha256":actual,"profile":rr.get("profile",""),"emulator":rr.get("emulator",""),"status":status,"runtime_result_schema":rr["schema"],"identity":{"payload_metadata":"PASS","runtime_evidence":"PASS" if evidence_hash else "LEGACY_UNBOUND"},"checks":{"runtime_process":rr["status"],"required_markers":v["status"]}}
+ out={"schema":1,"artifact_sha256":actual,"profile":rr.get("profile",""),"emulator":rr.get("emulator",""),"status":status,"runtime_result_schema":rr["schema"],"identity":{"payload_metadata":"PASS","runtime_evidence":"PASS"},"checks":{"runtime_process":rr["status"],"required_markers":v["status"]}}
  a.output.parent.mkdir(parents=True,exist_ok=True);a.output.write_text(json.dumps(out,indent=2)+"\n");print("Native qualification:",status)
  if status!="PASS":raise SystemExit(1)
 if __name__=="__main__":main()
