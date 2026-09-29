@@ -42,6 +42,7 @@ def main():
     shutil.copy2(a.guide, a.output / p["document"])
     shutil.copy2(script, a.output / p["script"])
     shutil.copy2(nav, a.output / "amigaguide-nav.rexx")
+    p["probe"] = "amigaguide-nav.rexx"
 
     meta = {
         "artifact": p["document"],
@@ -74,7 +75,10 @@ def main():
         json.dumps(c, indent=2) + "\n", encoding="utf-8"
     )
 
-    for rel in (p["document"], p["script"], "amigaguide-nav.rexx", "amiga-runtime.json"):
+    required = [p["document"], p["script"], p["probe"], "amiga-runtime.json"]
+    if a.launcher is not None:
+        required.append(p["launcher"])
+    for rel in required:
         if not (a.output / rel).is_file():
             raise SystemExit("incomplete payload: " + rel)
 
