@@ -16,6 +16,8 @@
   "result": {
     "log": "results/amigaguide.log",
     "required_lines": [
+      "EDUAREXX_DOCUMENT_PRESENT=PASS",
+      "EDUAREXX_VIEWER_PRESENT=PASS",
       "EDUAREXX_AMIGAGUIDE_OPEN=PASS"
     ]
   },
