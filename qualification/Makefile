@@ -1,4 +1,4 @@
-CC ?= m68k-amigaos-gcc
+CC = m68k-amigaos-gcc
 CFLAGS ?= -Os -Wall -Wextra
 OUT ?= ../build/amigaguide-launcher
 
