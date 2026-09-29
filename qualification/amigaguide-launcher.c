@@ -24,14 +24,18 @@ int main(void) {
     nag.nag_Name = "TEST:EduARexx.guide";
     nag.nag_ClientPort = "EDUAREXXGUIDE";
     ctx = OpenAmigaGuideAsync(&nag, TAG_DONE);
-    if (!ctx) { CloseLibrary(AmigaGuideBase); return 20; }
+    if (!ctx) {
+        CloseLibrary(AmigaGuideBase);
+        return 20;
+    }
 
     puts("EDUAREXX_LAUNCHER_OPEN=PASS");
     sigmask = AmigaGuideSignal(ctx);
 
     while (running) {
-        Wait(sigmask | SIGBREAKF_CTRL_C);
-        if (SetSignal(0, 0) & SIGBREAKF_CTRL_C) running = FALSE;
+        ULONG signals = Wait(sigmask | SIGBREAKF_CTRL_C);
+        if (signals & SIGBREAKF_CTRL_C) running = FALSE;
+
         while ((msg = GetAmigaGuideMsg(ctx)) != NULL) {
             if (msg->agm_Type == ShutdownMsgID) running = FALSE;
             ReplyAmigaGuideMsg(msg);
