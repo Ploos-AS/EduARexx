@@ -4,11 +4,15 @@ on:
   push:
     paths:
       - 'qualification/**'
-      - 'tools/package_amiga_runtime.py'\n      - 'tests/test_runtime_payload.py'\n      - 'tools/package_amiga_runtime.py'\n      - 'tests/test_runtime_payload.py'\n      - 'Makefile'
+      - 'tools/package_amiga_runtime.py'
+      - 'tests/test_runtime_payload.py'
+      - 'Makefile'
       - '.github/workflows/native-launcher.yml'
   pull_request:
     paths:
       - 'qualification/**'
+      - 'tools/package_amiga_runtime.py'
+      - 'tests/test_runtime_payload.py'
       - 'Makefile'
       - '.github/workflows/native-launcher.yml'
   workflow_dispatch:
@@ -25,10 +29,13 @@ jobs:
       AMIGA_CPU_PROFILE: '68000'
     steps:
       - uses: actions/checkout@v4
+
       - name: Pull pinned amiga-dev
         run: docker pull "$AMIGA_DEV_IMAGE"
+
       - name: Verify consumer contract
         run: docker run --rm "$AMIGA_DEV_IMAGE" amiga-check
+
       - name: Build native launcher
         run: |
           docker run --rm \
@@ -36,13 +43,26 @@ jobs:
             -v "$PWD:/workspace" \
             "$AMIGA_DEV_IMAGE" \
             amiga-build make native-launcher
+
       - name: Inspect Amiga target
         run: |
           docker run --rm \
             -v "$PWD:/workspace" \
             "$AMIGA_DEV_IMAGE" \
             amiga-inspect build/amigaguide-launcher
+
+      - name: Run payload contract tests
+        run: python3 -m unittest tests.test_runtime_payload
+
+      - name: Build artifact-bound native runtime payload
+        run: make native-runtime-payload
+
       - uses: actions/upload-artifact@v4
         with:
           name: EduARexx-amigaguide-launcher-m68k
           path: build/amigaguide-launcher
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: EduARexx-native-runtime-payload-m68k
+          path: build/amiga-runtime-payload/
