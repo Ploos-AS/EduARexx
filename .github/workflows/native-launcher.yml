@@ -1,0 +1,48 @@
+name: Native Amiga launcher
+
+on:
+  push:
+    paths:
+      - 'qualification/**'
+      - 'Makefile'
+      - '.github/workflows/native-launcher.yml'
+  pull_request:
+    paths:
+      - 'qualification/**'
+      - 'Makefile'
+      - '.github/workflows/native-launcher.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: read
+
+jobs:
+  build-m68k:
+    runs-on: ubuntu-latest
+    env:
+      AMIGA_DEV_IMAGE: ghcr.io/ploos-as/amiga-dev:sha-a786bb7
+      AMIGA_CPU_PROFILE: '68000'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Pull pinned amiga-dev
+        run: docker pull "$AMIGA_DEV_IMAGE"
+      - name: Verify consumer contract
+        run: docker run --rm "$AMIGA_DEV_IMAGE" amiga-check
+      - name: Build native launcher
+        run: |
+          docker run --rm \
+            -e AMIGA_CPU_PROFILE="$AMIGA_CPU_PROFILE" \
+            -v "$PWD:/workspace" \
+            "$AMIGA_DEV_IMAGE" \
+            amiga-build make native-launcher
+      - name: Inspect Amiga target
+        run: |
+          docker run --rm \
+            -v "$PWD:/workspace" \
+            "$AMIGA_DEV_IMAGE" \
+            amiga-inspect build/amigaguide-launcher
+      - uses: actions/upload-artifact@v4
+        with:
+          name: EduARexx-amigaguide-launcher-m68k
+          path: build/amigaguide-launcher
