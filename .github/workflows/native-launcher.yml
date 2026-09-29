@@ -36,6 +36,11 @@ jobs:
       - name: Verify consumer contract
         run: docker run --rm "$AMIGA_DEV_IMAGE" amiga-check
 
+      - name: Prepare writable native output
+        run: |
+          mkdir -p build
+          chmod 0777 build
+
       - name: Build native launcher
         run: |
           docker run --rm \
