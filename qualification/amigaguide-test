@@ -1,34 +1,55 @@
-; EduARexx native AmigaGuide qualification hook
+; EduARexx native AmigaGuide qualification orchestrator
 ; Machine evidence is written to TEST:results/amigaguide.log.
-; Interactive/visual checks deliberately remain outside the PASS marker.
+; Visual text/code-block checks deliberately remain outside automatic PASS.
 
 FailAt 21
 MakeDir TEST:results >NIL:
+Delete TEST:results/amigaguide.port QUIET
 Echo "EDUAREXX_QUALIFICATION_START" >TEST:results/amigaguide.log
 
 If NOT EXISTS "TEST:EduARexx.guide"
   Echo "EDUAREXX_DOCUMENT_PRESENT=FAIL" >>TEST:results/amigaguide.log
-  Echo "EDUAREXX_AMIGAGUIDE_OPEN=FAIL" >>TEST:results/amigaguide.log
   Quit 20
 EndIf
 Echo "EDUAREXX_DOCUMENT_PRESENT=PASS" >>TEST:results/amigaguide.log
 
-If NOT EXISTS "SYS:Utilities/AmigaGuide"
-  Echo "EDUAREXX_VIEWER_PRESENT=BLOCKED" >>TEST:results/amigaguide.log
-  Echo "EDUAREXX_AMIGAGUIDE_OPEN=BLOCKED" >>TEST:results/amigaguide.log
+If NOT EXISTS "TEST:amigaguide-launcher"
+  Echo "EDUAREXX_LAUNCHER_PRESENT=FAIL" >>TEST:results/amigaguide.log
   Quit 20
 EndIf
-Echo "EDUAREXX_VIEWER_PRESENT=PASS" >>TEST:results/amigaguide.log
+Echo "EDUAREXX_LAUNCHER_PRESENT=PASS" >>TEST:results/amigaguide.log
 
-SYS:Utilities/AmigaGuide TEST:EduARexx.guide
-If WARN
-  Echo "EDUAREXX_AMIGAGUIDE_OPEN=FAIL" >>TEST:results/amigaguide.log
+If NOT EXISTS "TEST:amigaguide-nav.rexx"
+  Echo "EDUAREXX_AREXX_PROBE_PRESENT=FAIL" >>TEST:results/amigaguide.log
   Quit 20
 EndIf
+Echo "EDUAREXX_AREXX_PROBE_PRESENT=PASS" >>TEST:results/amigaguide.log
 
+Run >NIL: TEST:amigaguide-launcher
+
+Set tries 0
+Lab waitport
+If EXISTS "TEST:results/amigaguide.port"
+  Skip portready
+EndIf
+Wait 1
+Set tries `Eval $tries + 1`
+If $tries LT 10
+  Skip BACK waitport
+EndIf
+Echo "EDUAREXX_AMIGAGUIDE_PORT=FAIL" >>TEST:results/amigaguide.log
+Quit 20
+
+Lab portready
 Echo "EDUAREXX_AMIGAGUIDE_OPEN=PASS" >>TEST:results/amigaguide.log
-Echo "EDUAREXX_MAIN_NODE=BLOCKED" >>TEST:results/amigaguide.log
-Echo "EDUAREXX_NAVIGATION=BLOCKED" >>TEST:results/amigaguide.log
+Set port `Type TEST:results/amigaguide.port`
+RX TEST:amigaguide-nav.rexx "$port" "" BASE
+If WARN
+  Echo "EDUAREXX_AREXX_PROBE=FAIL" >>TEST:results/amigaguide.log
+  Quit 20
+EndIf
+
+Echo "EDUAREXX_AREXX_PROBE=PASS" >>TEST:results/amigaguide.log
 Echo "EDUAREXX_NORWEGIAN_TEXT=BLOCKED" >>TEST:results/amigaguide.log
 Echo "EDUAREXX_CODE_BLOCKS=BLOCKED" >>TEST:results/amigaguide.log
 Echo "EDUAREXX_QUALIFICATION_END" >>TEST:results/amigaguide.log
