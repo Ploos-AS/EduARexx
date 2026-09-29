@@ -4,7 +4,7 @@ on:
   push:
     paths:
       - 'qualification/**'
-      - 'Makefile'
+      - 'tools/package_amiga_runtime.py'\n      - 'tests/test_runtime_payload.py'\n      - 'tools/package_amiga_runtime.py'\n      - 'tests/test_runtime_payload.py'\n      - 'Makefile'
       - '.github/workflows/native-launcher.yml'
   pull_request:
     paths:
