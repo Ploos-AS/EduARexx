@@ -7,7 +7,7 @@ all: $(OUT)
 
 $(OUT): amigaguide-launcher.c
 	mkdir -p ../build
-	$(CC) $(CFLAGS) -o $(OUT) amigaguide-launcher.c -lamigaguide
+	$(CC) $(CFLAGS) -o $(OUT) amigaguide-launcher.c
 
 clean:
 	rm -f $(OUT)
