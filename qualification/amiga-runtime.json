@@ -22,5 +22,9 @@
   "policy": {
     "roms_in_repository": false,
     "amigaos_files_in_repository": false
+  },
+  "artifact_identity": {
+    "path": "EduARexx.guide",
+    "sha256_source": "eduarexx-metadata.json"
   }
 }
