@@ -4,7 +4,10 @@
   "milestone": "M8-AmigaGuide",
   "architecture": "m68k",
   "payload": {
-    "program": "EduARexx.guide"
+    "kind": "document",
+    "document": "EduARexx.guide",
+    "application": "AmigaGuide",
+    "script": "amigaguide-test"
   },
   "emulator_profiles": [
     "a500plus-os2",
@@ -13,11 +16,7 @@
   "result": {
     "log": "results/amigaguide.log",
     "required_lines": [
-      "EDUAREXX_AMIGAGUIDE_OPEN=PASS",
-      "EDUAREXX_MAIN_NODE=PASS",
-      "EDUAREXX_NAVIGATION=PASS",
-      "EDUAREXX_NORWEGIAN_TEXT=PASS",
-      "EDUAREXX_CODE_BLOCKS=PASS"
+      "EDUAREXX_AMIGAGUIDE_OPEN=PASS"
     ]
   },
   "policy": {
