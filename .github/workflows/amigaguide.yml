@@ -1,9 +1,9 @@
 name: AmigaGuide
 on:
   push:
-    paths: ["docs/**","tools/**","tests/**","Makefile",".github/workflows/amigaguide.yml"]
+    paths: ["docs/**","tools/**","tests/**","qualification/**","Makefile",".github/workflows/amigaguide.yml"]
   pull_request:
-    paths: ["docs/**","tools/**","tests/**","Makefile"]
+    paths: ["docs/**","tools/**","tests/**","qualification/**","Makefile"]
   workflow_dispatch:
     inputs:
       version:
