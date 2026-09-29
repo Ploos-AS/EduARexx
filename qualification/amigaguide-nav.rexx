@@ -1,7 +1,6 @@
 /* EduARexx AmigaGuide ARexx navigation probe.
  * Args: primary-port [secondary-port] [BASE|V40]
- * BASE: LINK Main + QUIT.
- * V40: additionally NEXT/PREVIOUS/RETRACE on secondary port.
+ * Machine evidence is appended to TEST:results/amigaguide.log.
  */
 parse arg primary secondary mode
 if primary = '' then exit 10
@@ -14,7 +13,7 @@ address value primary
 options results
 'LINK Main'
 if rc ~= 0 then exit 20
-say 'EDUAREXX_MAIN_NODE=PASS'
+call evidence 'EDUAREXX_MAIN_NODE=PASS'
 
 if mode = 'V40' then do
   if secondary = '' then exit 10
@@ -26,15 +25,20 @@ if mode = 'V40' then do
   if rc ~= 0 then exit 20
   'RETRACE'
   if rc ~= 0 then exit 20
-  say 'EDUAREXX_AREXX_NAVIGATION_V40=PASS'
+  call evidence 'EDUAREXX_AREXX_NAVIGATION_V40=PASS'
 end
 else do
   if mode ~= 'BASE' then exit 10
-  say 'EDUAREXX_AREXX_NAVIGATION_BASE=PASS'
+  call evidence 'EDUAREXX_AREXX_NAVIGATION_BASE=PASS'
 end
 
 address value primary
 'QUIT'
 if rc ~= 0 then exit 20
-say 'EDUAREXX_AMIGAGUIDE_QUIT=PASS'
+call evidence 'EDUAREXX_AMIGAGUIDE_QUIT=PASS'
 exit 0
+
+evidence:
+  parse arg line
+  call lineout 'TEST:results/amigaguide.log', line
+  return
