@@ -1,19 +1,35 @@
 ; EduARexx native AmigaGuide qualification hook
-; This is deliberately conservative: it verifies that the native viewer can
-; be invoked on the generated document. Interactive navigation remains a
-; manual/runtime evidence step until GUI automation is available.
+; Machine evidence is written to TEST:results/amigaguide.log.
+; Interactive/visual checks deliberately remain outside the PASS marker.
 
-Echo "EDUAREXX_QUALIFICATION_START"
-If EXISTS "SYS:Utilities/AmigaGuide"
-  SYS:Utilities/AmigaGuide "TEST:EduARexx.guide"
-Else
-  Echo "EDUAREXX_AMIGAGUIDE_OPEN=BLOCKED"
-  Echo "EDUAREXX_QUALIFICATION_END"
-  EndCLI
+FailAt 21
+MakeDir TEST:results >NIL:
+Echo "EDUAREXX_QUALIFICATION_START" >TEST:results/amigaguide.log
+
+If NOT EXISTS "TEST:EduARexx.guide"
+  Echo "EDUAREXX_DOCUMENT_PRESENT=FAIL" >>TEST:results/amigaguide.log
+  Echo "EDUAREXX_AMIGAGUIDE_OPEN=FAIL" >>TEST:results/amigaguide.log
+  Quit 20
 EndIf
-Echo "EDUAREXX_AMIGAGUIDE_OPEN=PASS"
-Echo "EDUAREXX_MAIN_NODE=BLOCKED"
-Echo "EDUAREXX_NAVIGATION=BLOCKED"
-Echo "EDUAREXX_NORWEGIAN_TEXT=BLOCKED"
-Echo "EDUAREXX_CODE_BLOCKS=BLOCKED"
-Echo "EDUAREXX_QUALIFICATION_END"
+Echo "EDUAREXX_DOCUMENT_PRESENT=PASS" >>TEST:results/amigaguide.log
+
+If NOT EXISTS "SYS:Utilities/AmigaGuide"
+  Echo "EDUAREXX_VIEWER_PRESENT=BLOCKED" >>TEST:results/amigaguide.log
+  Echo "EDUAREXX_AMIGAGUIDE_OPEN=BLOCKED" >>TEST:results/amigaguide.log
+  Quit 20
+EndIf
+Echo "EDUAREXX_VIEWER_PRESENT=PASS" >>TEST:results/amigaguide.log
+
+SYS:Utilities/AmigaGuide TEST:EduARexx.guide
+If WARN
+  Echo "EDUAREXX_AMIGAGUIDE_OPEN=FAIL" >>TEST:results/amigaguide.log
+  Quit 20
+EndIf
+
+Echo "EDUAREXX_AMIGAGUIDE_OPEN=PASS" >>TEST:results/amigaguide.log
+Echo "EDUAREXX_MAIN_NODE=BLOCKED" >>TEST:results/amigaguide.log
+Echo "EDUAREXX_NAVIGATION=BLOCKED" >>TEST:results/amigaguide.log
+Echo "EDUAREXX_NORWEGIAN_TEXT=BLOCKED" >>TEST:results/amigaguide.log
+Echo "EDUAREXX_CODE_BLOCKS=BLOCKED" >>TEST:results/amigaguide.log
+Echo "EDUAREXX_QUALIFICATION_END" >>TEST:results/amigaguide.log
+Quit 0
