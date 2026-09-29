@@ -60,7 +60,15 @@ jobs:
         run: python3 -m unittest tests.test_runtime_payload
 
       - name: Build artifact-bound native runtime payload
+        env:
+          EDUAREXX_SOURCE_REVISION: ${{ github.sha }}
         run: make native-runtime-payload
+
+      - name: Verify handoff identity
+        env:
+          EXPECTED_REVISION: ${{ github.sha }}
+        run: |
+          jq -e --arg rev "$EXPECTED_REVISION" '.source_revision == $rev and .runtime_payload == "EduARexx-native-runtime-payload-m68k" and (.sha256 | length == 64) and (.launcher.sha256 | length == 64)' build/amiga-runtime-payload/eduarexx-metadata.json
 
       - uses: actions/upload-artifact@v4
         with:
