@@ -1,0 +1,157 @@
+@database EduARexx.guide
+@$VER: EduARexx.guide 0.1 (29.09.2026)
+@author "Ploos AS"
+@(c) "CC BY 4.0"
+
+@node Main "EduARexx"
+EduARexx
+========
+
+Fra SAY "Hello" til Amiga power user.
+
+Dette er AmigaGuide-utgaven av EduARexx.
+
+@{"Start kurset" link Intro}
+@{"M1 - Fundamentals" link M1}
+@{"M2 - Amiga Power User" link M2}
+@{"M3 - ARexx Ports" link M3}
+@{"M4 - Robust ARexx" link M4}
+@{"M5 - Inside ARexx" link M5}
+@{"Om denne utgaven" link About}
+@endnode
+
+@node Intro "Introduksjon"
+Hva er ARexx?
+--------------
+
+ARexx er Amigaens script- og automatiseringsmiljo. Kurset starter
+fra null og bygger gradvis mot automatisering av AmigaOS og
+kommunikasjon mellom programmer.
+
+Forste program:
+
+  /* hello.rexx */
+  say 'Hello, Amiga!'
+
+@{"Tilbake" link Main}
+@{"Neste: M1" link M1}
+@endnode
+
+@node M1 "M1 - ARexx Fundamentals"
+M1 - ARexx Fundamentals
+------------------------
+
+Temaer:
+
+ * variabler og uttrykk
+ * IF og SELECT
+ * lokker
+ * funksjoner og prosedyrer
+ * PARSE
+ * PowerTool-prosjektet
+
+Maalet er at studenten kan skrive og forklare strukturerte
+ARexx-programmer.
+
+@{"Forrige" link Intro}
+@{"Neste: M2" link M2}
+@endnode
+
+@node M2 "M2 - Amiga Power User"
+M2 - Amiga Power User
+---------------------
+
+Her begynner ARexx aa styre Amiga-miljoet.
+
+Temaer:
+
+ * ADDRESS COMMAND
+ * AmigaDOS
+ * filer og kataloger
+ * assigns
+ * RC
+ * validering
+ * robuste systemscript
+ * AmiOperator
+
+@{"Forrige" link M1}
+@{"Neste: M3" link M3}
+@endnode
+
+@node M3 "M3 - ARexx Ports"
+M3 - ARexx Ports
+----------------
+
+ARexx-portene lar programmer eksponere kommandoer til scripts.
+
+Temaer:
+
+ * message ports
+ * ADDRESS mot programmer
+ * OPTIONS RESULTS
+ * RC og RESULT
+ * orkestrering
+ * PortCommander
+
+@{"Forrige" link M2}
+@{"Neste: M4" link M4}
+@endnode
+
+@node M4 "M4 - Robust ARexx"
+M4 - Robust ARexx
+-----------------
+
+Temaer:
+
+ * TRACE
+ * systematisk debugging
+ * SIGNAL
+ * feilbehandling
+ * logging
+ * cleanup
+ * programarkitektur
+ * RexxFlow
+
+@{"Forrige" link M3}
+@{"Neste: M5" link M5}
+@endnode
+
+@node M5 "M5 - Inside ARexx"
+M5 - Inside ARexx
+-----------------
+
+Naa gaar kurset under panseret.
+
+Temaer:
+
+ * RexxMast
+ * Exec message ports
+ * RexxMsg
+ * host-design
+ * ARexx-host i C
+ * EDUHOST
+
+Maalet er aa forstaa hele reisen fra ADDRESS i et script til
+en native Amiga-host og tilbake via RC og RESULT.
+
+@{"Forrige" link M4}
+@{"Til forsiden" link Main}
+@endnode
+
+@node About "Om EduARexx AmigaGuide"
+Om denne utgaven
+----------------
+
+Dette er den tidlige native AmigaGuide-referansen for EduARexx.
+
+Kursmateriale:
+Creative Commons Attribution 4.0 International.
+
+Kodeeksempler:
+MIT License med mindre annet er angitt.
+
+Produksjonsutgaven skal genereres fra samme kildemateriale som
+HTML-, PDF- og e-bokutgavene.
+
+@{"Til forsiden" link Main}
+@endnode
