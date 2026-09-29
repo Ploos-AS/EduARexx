@@ -4,17 +4,27 @@ on:
     paths: ["docs/**","tools/**","tests/**","Makefile",".github/workflows/amigaguide.yml"]
   pull_request:
     paths: ["docs/**","tools/**","tests/**","Makefile"]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "AmigaGuide version"
+        required: false
+        default: "0.1.0"
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      GUIDE_VERSION: ${{ inputs.version || '0.1.0' }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.x"
       - run: make test
-      - run: make validate-amigaguide
+      - run: make validate-amigaguide VERSION="$GUIDE_VERSION"
+      - name: Stage versioned artifact
+        run: cp build/EduARexx.guide "build/EduARexx-${GUIDE_VERSION}.guide"
       - uses: actions/upload-artifact@v4
         with:
-          name: EduARexx-AmigaGuide
-          path: build/EduARexx.guide
+          name: EduARexx-AmigaGuide-${{ env.GUIDE_VERSION }}
+          path: build/EduARexx-*.guide
