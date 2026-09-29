@@ -14,7 +14,7 @@ def main():
  if not script.is_file():raise SystemExit("missing guest script: "+str(script))
  if a.output.exists():shutil.rmtree(a.output)
  a.output.mkdir(parents=True)
- shutil.copy2(a.guide,a.output/p["document"]);shutil.copy2(script,a.output/p["script"]);shutil.copy2(a.contract,a.output/"amiga-runtime.json");(a.output/"results").mkdir()
+ shutil.copy2(a.guide,a.output/p["document"]);shutil.copy2(script,a.output/p["script"]);(a.output/"results").mkdir()
  meta={"artifact":p["document"],"sha256":digest(a.guide),"native_status":"NOT_RUN","contract_schema":c["schema"]}
  (a.output/"eduarexx-metadata.json").write_text(json.dumps(meta,indent=2)+"\n",encoding="utf-8")
  for key in ("document","script"):
