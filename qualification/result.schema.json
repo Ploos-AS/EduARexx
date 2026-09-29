@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EduARexx AmigaGuide qualification result",
+  "type": "object",
+  "required": ["artifact_sha256", "profile", "emulator", "status", "checks"],
+  "properties": {
+    "artifact_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "profile": {"type": "string"},
+    "emulator": {"type": "string"},
+    "emulator_version": {"type": "string"},
+    "amigaos": {"type": "string"},
+    "status": {"enum": ["PASS", "FAIL", "BLOCKED"]},
+    "checks": {
+      "type": "object",
+      "additionalProperties": {"enum": ["PASS", "FAIL", "BLOCKED"]}
+    },
+    "notes": {"type": "string"}
+  },
+  "additionalProperties": false
+}
