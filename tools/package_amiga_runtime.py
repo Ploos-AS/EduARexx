@@ -3,6 +3,7 @@
 import argparse
 import hashlib
 import json
+import os
 import shutil
 from pathlib import Path
 
@@ -49,6 +50,8 @@ def main():
         "sha256": digest(a.guide),
         "native_status": "NOT_RUN",
         "contract_schema": c["schema"],
+        "source_revision": os.environ.get("EDUAREXX_SOURCE_REVISION", "UNKNOWN"),
+        "runtime_payload": "EduARexx-native-runtime-payload-m68k",
     }
 
     if a.launcher is not None:
